@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
 
-import {Todo} from './types';
-import NewTodoForm from './components/NewTodoForm'
-import TodoItem from './components/TodoItem'
+import { Todo } from './types';
+import NewTodoForm from './components/NewTodoForm';
+import TodoList from './components/TodoList';
 import './App.css';
 
 function App() {
@@ -17,6 +17,20 @@ function App() {
     setTodos([newTodo, ...todos]);
   }
 
+  const handleChangeTodo = (id: string): void => {
+    setTodos(todos.map((todo: Todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+        return todo;
+      }
+      return todo;
+    }))
+  }
+
+  const deleteTodo = (id: string): void => {
+    setTodos(todos.filter((todo: Todo) => todo.id !== id));
+  } 
+
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos')
       .then(res => res.json())
@@ -30,7 +44,7 @@ function App() {
       <NewTodoForm
         handleClick={addTodo}
       />
-      <TodoItem id='112' completed={false} title="first todo" style={{ border: '1px sold white' }}/>
+      <TodoList todos={todos} deleteTodo={deleteTodo} handleChangeTodo={handleChangeTodo}/>
     </div>
   );
 }

@@ -1,16 +1,18 @@
 import React from 'react';
-import {Todo} from '../types';
+import {Todo, ActionFunc} from '../types';
 
 interface TodoItemProps extends Todo {
   style?: React.CSSProperties,
+  deleteTodo: ActionFunc,
+  handleChangeTodo: ActionFunc
 }
 
-const TodoItem = ({ id, title, completed, style = {} }: TodoItemProps) => {
+const TodoItem = ({ id, title, completed, style = {}, deleteTodo, handleChangeTodo }: TodoItemProps) => {
   return (
     <li style={style}>
-      <input type="checkbox" defaultChecked={completed} />
+      <input type="checkbox" checked={completed} onChange={() => handleChangeTodo(id)} />
       <span>{title}</span>
-      <span>&times;</span>
+      <span onClick={() => deleteTodo(id)}>&times;</span>
     </li>
   );
 }

@@ -1,0 +1,1 @@
+export type ActionFunc = (id: string) => void;
